@@ -1,4 +1,4 @@
-import type { CommandDef } from 'citty'
+import type { ArgsDef, CommandDef } from 'citty'
 import type { DecodeOptions, Delimiter, EncodeOptions } from '../../toon/src/index.ts'
 import type { InputSource } from './types.ts'
 import * as path from 'node:path'
@@ -12,123 +12,70 @@ import { detectMode } from './utils.ts'
 
 const { name, version } = pkg
 
-export const mainCommand: CommandDef<{
+const args: ArgsDef = {
   input: {
-    type: 'positional'
-    description: string
-    required: false
-  }
+    type: 'positional',
+    description: 'Input file path (omit or use "-" to read from stdin)',
+    required: false,
+  },
   output: {
-    type: 'string'
-    description: string
-    alias: string
-  }
+    type: 'string',
+    description: 'Output file path',
+    alias: 'o',
+  },
   encode: {
-    type: 'boolean'
-    description: string
-    alias: string
-  }
+    type: 'boolean',
+    description: 'Encode JSON to TOON (auto-detected by default)',
+    alias: 'e',
+  },
   decode: {
-    type: 'boolean'
-    description: string
-    alias: string
-  }
+    type: 'boolean',
+    description: 'Decode TOON to JSON (auto-detected by default)',
+    alias: 'd',
+  },
   delimiter: {
-    type: 'string'
-    description: string
-    default: string
-  }
+    type: 'string',
+    description: 'Delimiter for arrays: comma (,), tab (\\t), or pipe (|)',
+    default: ',',
+  },
   indent: {
-    type: 'string'
-    description: string
-    default: string
-  }
+    type: 'string',
+    description: 'Indentation size',
+    default: '2',
+  },
   strict: {
-    type: 'boolean'
-    description: string
-    default: true
-  }
+    type: 'boolean',
+    description: 'Enable strict mode for decoding',
+    default: true,
+  },
   keyFolding: {
-    type: 'string'
-    description: string
-    default: string
-  }
+    type: 'string',
+    description: 'Enable key folding: off, safe (default: off)',
+    default: 'off',
+  },
   flattenDepth: {
-    type: 'string'
-    description: string
-  }
+    type: 'string',
+    description: 'Maximum folded segment count when key folding is enabled (default: Infinity)',
+  },
   expandPaths: {
-    type: 'string'
-    description: string
-    default: string
-  }
+    type: 'string',
+    description: 'Enable path expansion: off, safe (default: off)',
+    default: 'off',
+  },
   stats: {
-    type: 'boolean'
-    description: string
-    default: false
-  }
-}> = defineCommand({
+    type: 'boolean',
+    description: 'Show token statistics',
+    default: false,
+  },
+} as const satisfies ArgsDef
+
+export const mainCommand: CommandDef<ArgsDef> = defineCommand({
   meta: {
     name,
-    description: 'TOON CLI — Convert between JSON and TOON formats',
+    description: 'TOON CLI – Convert between JSON and TOON formats',
     version,
   },
-  args: {
-    input: {
-      type: 'positional',
-      description: 'Input file path (omit or use "-" to read from stdin)',
-      required: false,
-    },
-    output: {
-      type: 'string',
-      description: 'Output file path',
-      alias: 'o',
-    },
-    encode: {
-      type: 'boolean',
-      description: 'Encode JSON to TOON (auto-detected by default)',
-      alias: 'e',
-    },
-    decode: {
-      type: 'boolean',
-      description: 'Decode TOON to JSON (auto-detected by default)',
-      alias: 'd',
-    },
-    delimiter: {
-      type: 'string',
-      description: 'Delimiter for arrays: comma (,), tab (\\t), or pipe (|)',
-      default: ',',
-    },
-    indent: {
-      type: 'string',
-      description: 'Indentation size',
-      default: '2',
-    },
-    strict: {
-      type: 'boolean',
-      description: 'Enable strict mode for decoding',
-      default: true,
-    },
-    keyFolding: {
-      type: 'string',
-      description: 'Enable key folding: off, safe (default: off)',
-      default: 'off',
-    },
-    flattenDepth: {
-      type: 'string',
-      description: 'Maximum folded segment count when key folding is enabled (default: Infinity)',
-    },
-    expandPaths: {
-      type: 'string',
-      description: 'Enable path expansion: off, safe (default: off)',
-      default: 'off',
-    },
-    stats: {
-      type: 'boolean',
-      description: 'Show token statistics',
-      default: false,
-    },
-  },
+  args,
   async run({ args }) {
     const input = args.input
 

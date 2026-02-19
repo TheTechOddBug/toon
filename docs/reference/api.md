@@ -114,7 +114,7 @@ const lineArray = Array.from(encodeLines(data))
 
 #### Return Value
 
-Returns an `Iterable<string>` that yields TOON lines one at a time. **Each yielded string is a single line without a trailing newline character** — you must add `\n` when writing to streams or stdout.
+Returns an `Iterable<string>` that yields TOON lines one at a time. **Each yielded string is a single line without a trailing newline character** – you must add `\n` when writing to streams or stdout.
 
 ::: info Relationship to `encode()`
 `encode(value, options)` is equivalent to:

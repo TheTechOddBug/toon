@@ -8,21 +8,21 @@
     "fetch:github-repos": "node scripts/fetch-github-repos.ts"
   },
   "devDependencies": {
-    "@ai-sdk/anthropic": "^2.0.56",
-    "@ai-sdk/google": "^2.0.46",
-    "@ai-sdk/openai": "^2.0.86",
-    "@ai-sdk/provider": "^2.0.0",
-    "@ai-sdk/xai": "^2.0.40",
-    "@clack/prompts": "^0.11.0",
-    "@faker-js/faker": "^10.1.0",
-    "ai": "^5.0.113",
+    "@ai-sdk/anthropic": "^3.0.45",
+    "@ai-sdk/google": "^3.0.29",
+    "@ai-sdk/openai": "^3.0.30",
+    "@ai-sdk/provider": "^3.0.8",
+    "@ai-sdk/xai": "^3.0.57",
+    "@clack/prompts": "^1.0.1",
+    "@faker-js/faker": "^10.3.0",
+    "ai": "^6.0.91",
     "csv-stringify": "^6.6.0",
-    "fast-xml-parser": "^5.3.3",
+    "fast-xml-parser": "^5.3.6",
     "gpt-tokenizer": "^3.4.0",
     "ofetch": "^1.5.1",
     "p-map": "^7.0.4",
-    "p-queue": "^9.0.1",
-    "unstorage": "^1.17.3",
+    "p-queue": "^9.1.0",
+    "unstorage": "^1.17.4",
     "yaml": "^2.8.2"
   }
 }
