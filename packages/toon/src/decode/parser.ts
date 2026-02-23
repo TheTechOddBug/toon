@@ -52,6 +52,12 @@ export function parseArrayHeaderLine(
   // Check for fields segment (braces come after bracket)
   const braceStart = content.indexOf(OPEN_BRACE, bracketEnd)
   if (braceStart !== -1 && braceStart < content.indexOf(COLON, bracketEnd)) {
+    // Validate: no extraneous content between bracket end and brace start
+    const gapBeforeBrace = content.slice(bracketEnd + 1, braceStart)
+    if (gapBeforeBrace.trim() !== '') {
+      return
+    }
+
     const foundBraceEnd = content.indexOf(CLOSE_BRACE, braceStart)
     if (foundBraceEnd !== -1) {
       braceEnd = foundBraceEnd + 1
@@ -61,6 +67,13 @@ export function parseArrayHeaderLine(
   // Now find colon after brackets and braces
   colonIndex = content.indexOf(COLON, Math.max(bracketEnd, braceEnd))
   if (colonIndex === -1) {
+    return
+  }
+
+  // Validate: no extraneous content between bracket/fields end and colon
+  const gapStart = Math.max(bracketEnd + 1, braceEnd)
+  const gapBeforeColon = content.slice(gapStart, colonIndex)
+  if (gapBeforeColon.trim() !== '') {
     return
   }
 
