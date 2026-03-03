@@ -12,9 +12,9 @@ import { compareAnswers } from './normalize.ts'
  */
 export const models: LanguageModelV3[] = [
   anthropic('claude-haiku-4-5-20251001'),
-  google('gemini-2.5-flash'),
+  google('gemini-3-flash-preview'),
   openai('gpt-5-nano'),
-  xai('grok-4-fast-non-reasoning'),
+  xai('grok-4-1-fast-non-reasoning'),
 ]
 
 /**

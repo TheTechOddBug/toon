@@ -47,8 +47,8 @@ Tests how well LLMs can answer questions about data in different formats (TOON, 
    export const models: LanguageModelV3[] = [
      openai('gpt-5-nano'),
      anthropic('claude-haiku-4-5-20251001'),
-     google('gemini-2.5-flash'),
-     xai('grok-4-fast-non-reasoning'),
+     google('gemini-3-flash-preview'),
+     xai('grok-4-1-fast-non-reasoning'),
      // Add your models here
    ]
    ```
