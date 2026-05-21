@@ -114,6 +114,43 @@ describe('JavaScript-specific type normalization', () => {
     })
   })
 
+  describe('canonical number form (§2 carve-out)', () => {
+    it('emits canonical decimal for zero', () => {
+      expect(encode(0)).toBe('0')
+      expect(decode(encode(0))).toBe(0)
+    })
+
+    it('emits canonical decimal at the lower in-band boundary (1e-6)', () => {
+      expect(encode(1e-6)).toBe('0.000001')
+      expect(decode(encode(1e-6))).toBe(1e-6)
+    })
+
+    it('emits exponent form just below the lower boundary (1e-7)', () => {
+      expect(encode(1e-7)).toBe('1e-7')
+      expect(decode(encode(1e-7))).toBe(1e-7)
+    })
+
+    it('emits canonical decimal near the upper in-band boundary (9.999999e20)', () => {
+      expect(encode(9.999999e20)).toBe('999999900000000000000')
+      expect(decode(encode(9.999999e20))).toBe(9.999999e20)
+    })
+
+    it('emits exponent form at the upper boundary (1e21)', () => {
+      expect(encode(1e21)).toBe('1e+21')
+      expect(decode(encode(1e21))).toBe(1e21)
+    })
+
+    it('emits canonical decimal for a large integer in band (1.5e20)', () => {
+      expect(encode(1.5e20)).toBe('150000000000000000000')
+      expect(decode(encode(1.5e20))).toBe(1.5e20)
+    })
+
+    it('emits exponent form for the smallest subnormal (5e-324)', () => {
+      expect(encode(5e-324)).toBe('5e-324')
+      expect(decode(encode(5e-324))).toBe(5e-324)
+    })
+  })
+
   describe('toJSON method support', () => {
     it('calls toJSON method when object has it', () => {
       const obj = {

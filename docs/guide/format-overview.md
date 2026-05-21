@@ -334,19 +334,7 @@ Other escapes (e.g., `\x`, `\0`, `\b`) are always rejected, as are lone-surrogat
 
 ### Type Conversions
 
-Numbers are emitted in canonical decimal form for values in the §2 carve-out range; exponent notation is permitted outside. Non-JSON types are normalized before encoding:
-
-| Input | Output |
-|-------|--------|
-| Finite number in `[1e-6, 1e21)` (or zero) | Canonical decimal (e.g., `1e6` → `1000000`, `1.5000` → `1.5`, `-0` → `0`) |
-| Finite number outside that range | Exponent form permitted (e.g., `1e-7`, `1e+21`) |
-| `NaN`, `Infinity`, `-Infinity` | `null` |
-| `BigInt` (within safe range) | Number |
-| `BigInt` (out of range) | Quoted decimal string (e.g., `"9007199254740993"`) |
-| `Date` | ISO string in quotes (e.g., `"2025-01-01T00:00:00.000Z"`) |
-| `Set` | Array of normalized values |
-| `Map` | Object with `String(key)` keys |
-| `undefined`, `function`, `symbol` | `null` |
+Numbers are emitted in canonical decimal form for values in the §2 carve-out range; exponent notation is permitted outside. Non-JSON types (`NaN`, `Infinity`, `BigInt`, `Date`, `Set`, `Map`, `undefined`, etc.) are normalized before encoding – see [API Reference – Type Normalization](/reference/api#type-normalization) for the full mapping.
 
 Decoders accept both decimal and exponent forms on input (e.g., `42`, `-3.14`, `1e-6`), and treat tokens with forbidden leading zeros (e.g., `"05"`) as strings, not numbers.
 
